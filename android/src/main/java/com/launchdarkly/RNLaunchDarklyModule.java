@@ -1,5 +1,5 @@
 
-package com.reactlibrary;
+package com.launchdarkly;
 
 import android.app.Application;
 import android.util.Log;

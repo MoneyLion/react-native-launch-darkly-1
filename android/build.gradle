@@ -34,8 +34,8 @@ repositories {
 }
 
 dependencies {
-    compile "com.facebook.react:react-native:${safeExtGet('reactNative', '+')}"
-    compile('com.launchdarkly:launchdarkly-android-client:2.5.1') {
+    implementation "com.facebook.react:react-native:${safeExtGet('reactNative', '+')}"
+    implementation('com.launchdarkly:launchdarkly-android-client:2.5.1') {
         exclude group: 'com.squareup.okhttp', module: 'okhttp'
     }
 
