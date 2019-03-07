@@ -1,6 +1,7 @@
 
 package com.launchdarkly;
 
+import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 
@@ -84,8 +85,8 @@ public class RNLaunchDarklyModule extends ReactContextBaseJavaModule {
 
     Activity reactActivity = reactContext.getCurrentActivity();
 
-    if (reactActivity && reactActivity.getApplication() != null) {
-      ldClient = LDClient.init(application, ldConfig, user, 0);
+    if (reactActivity != null && reactActivity.getApplication() != null) {
+      ldClient = LDClient.init(reactActivity.getApplication(), ldConfig, user, 0);
     } else {
       Log.d("RNLaunchDarklyModule", "Couldn't init RNLaunchDarklyModule cause application was null");
     }
