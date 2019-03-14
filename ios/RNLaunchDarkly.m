@@ -9,7 +9,7 @@
     return @[@"FeatureFlagChanged"];
 }
 
-RCT_EXPORT_METHOD(configure:(NSString*)apiKey options:(NSDictionary*)options) {
+RCT_EXPORT_METHOD(configure:(NSString*)apiKey options:(NSDictionary*)options resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     NSLog(@"configure with %@", options);
 
     NSString* key           = options[@"key"];
@@ -53,6 +53,7 @@ RCT_EXPORT_METHOD(configure:(NSString*)apiKey options:(NSDictionary*)options) {
     if ( self.user ) {
         bool updatedSuccesfully = [[LDClient sharedInstance] updateUser:user];
         NSLog(@"LaunchDarkly User was updated. Key=%@ IsSuccess=%@", key, updatedSuccesfully ? @"YES" : @"NO");
+		resolve(@{ @"email": email});
         return;
     }
 
@@ -65,6 +66,7 @@ RCT_EXPORT_METHOD(configure:(NSString*)apiKey options:(NSDictionary*)options) {
      object:nil];
 
     [[LDClient sharedInstance] start:config userBuilder:user];
+	resolve(@{ @"email": email});
 }
 
 RCT_EXPORT_METHOD(boolVariation:(NSString*)flagName callback:(RCTResponseSenderBlock)callback) {

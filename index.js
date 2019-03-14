@@ -13,7 +13,7 @@ class LaunchDarkly {
   }
 
   configure (apiKey, options) {
-    RNLaunchDarkly.configure(apiKey, options);
+    return RNLaunchDarkly.configure(apiKey, options);
   }
 
   boolVariation (featureName, callback) {
