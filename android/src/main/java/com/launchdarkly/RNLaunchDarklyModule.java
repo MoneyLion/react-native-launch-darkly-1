@@ -40,7 +40,7 @@ public class RNLaunchDarklyModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void configure(String apiKey, ReadableMap options) {
+  public void configure(String apiKey, ReadableMap options, Promise promise) {
     LDConfig ldConfig = new LDConfig.Builder()
             .setMobileKey(apiKey)
             .build();
@@ -77,7 +77,9 @@ public class RNLaunchDarklyModule extends ReactContextBaseJavaModule {
     if (user != null && ldClient != null) {
       user = userBuilder.build();
       ldClient.identify(user);
-
+      WritableMap map = Arguments.createMap();
+      map.putString("email", options.getString("email"));
+      promise.resolve(map);
       return;
     }
 
@@ -87,8 +89,12 @@ public class RNLaunchDarklyModule extends ReactContextBaseJavaModule {
 
     if (reactActivity != null && reactActivity.getApplication() != null) {
       ldClient = LDClient.init(reactActivity.getApplication(), ldConfig, user, 0);
+      WritableMap map = Arguments.createMap();
+      map.putString("email", options.getString("email"));
+      promise.resolve(map);
     } else {
       Log.d("RNLaunchDarklyModule", "Couldn't init RNLaunchDarklyModule cause application was null");
+      promise.reject(new Throwable("Couldn't init RNLaunchDarklyModule cause application was null"));
     }
   }
 
