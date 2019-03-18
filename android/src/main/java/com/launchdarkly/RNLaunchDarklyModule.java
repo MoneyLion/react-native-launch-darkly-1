@@ -70,7 +70,11 @@ public class RNLaunchDarklyModule extends ReactContextBaseJavaModule {
     while (iterator.hasNextKey()) {
       String key = iterator.nextKey();
       if (!nonCustomFields.contains(key)) {
-        userBuilder = userBuilder.custom(key, options.getString(key));
+        if (options.getType(key) == ReadableType.Number) {
+          userBuilder = userBuilder.custom(key, options.getDouble(key));
+        } else if (options.getType(key) == ReadableType.String) {
+          userBuilder = userBuilder.custom(key, options.getString(key));
+        }
         Log.d("RNLaunchDarklyModule", "Launch Darkly custom field: " + key);
       }
     }
